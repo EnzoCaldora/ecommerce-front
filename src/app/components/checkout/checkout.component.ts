@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Luv2ShopFormService} from "../../services/luv2-shop-form.service";
 import {Country} from "../../common/country";
 import {State} from "../../common/state";
+import {Luv2ShopValidators} from "../../validators/luv2-shop-validators";
 
 @Component({
   selector: 'app-checkout',
@@ -22,8 +23,6 @@ export class CheckoutComponent implements OnInit {
 
   countries: Country[] = [];
 
-
-  // TODO: TS error occurs when using State[] = [] -> any[] = [] is a temporary solution
   shippingAddressStates: State[] = [];
   billingAddressStates: State[] = [];
 
@@ -36,29 +35,37 @@ export class CheckoutComponent implements OnInit {
 
     this.checkedOutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
-        firstName: [''],
-        lastName: [''],
-        email: ['']
+        firstName: new FormControl('',
+          [Validators.required, Validators.minLength(2), Luv2ShopValidators.notOnlyWhitespace]),
+        lastName: new FormControl('', [Validators.required, Validators.minLength(2), Luv2ShopValidators.notOnlyWhitespace]),
+        email: new FormControl('', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')])
       }),
       shippingAddress: this.formBuilder.group({
-        street: [''],
-        city: [''],
-        state: [''],
-        country: [''],
-        zipCode: ['']
+        street: new FormControl('',
+          [Validators.required, Validators.minLength(2), Luv2ShopValidators.notOnlyWhitespace]),
+        city: new FormControl('',
+          [Validators.required, Validators.minLength(2), Luv2ShopValidators.notOnlyWhitespace]),
+        state: new FormControl('', [Validators.required]),
+        country: new FormControl('', [Validators.required]),
+        zipCode: new FormControl('',
+          [Validators.required, Validators.minLength(2), Luv2ShopValidators.notOnlyWhitespace])
       }),
       billingAddress: this.formBuilder.group({
-        street: [''],
-        city: [''],
-        state: [''],
-        country: [''],
-        zipCode: ['']
+        street: new FormControl('',
+          [Validators.required, Validators.minLength(2), Luv2ShopValidators.notOnlyWhitespace]),
+        city: new FormControl('',
+          [Validators.required, Validators.minLength(2), Luv2ShopValidators.notOnlyWhitespace]),
+        state: new FormControl('', [Validators.required]),
+        country: new FormControl('', [Validators.required]),
+        zipCode: new FormControl('',
+          [Validators.required, Validators.minLength(2), Luv2ShopValidators.notOnlyWhitespace])
       }),
       creditCard: this.formBuilder.group({
-        cardType: [''],
-        nameOnCard: [''],
-        cardNumber: [''],
-        securityCode: [''],
+        cardType: new FormControl('', [Validators.required]),
+        nameOnCard: new FormControl('',
+          [Validators.required, Validators.minLength(2), Luv2ShopValidators.notOnlyWhitespace]),
+        cardNumber: new FormControl('', [Validators.required, Validators.pattern('[0-9]{16}')]),
+        securityCode: new FormControl('', [Validators.required, Validators.pattern('[0-9]{3}')]),
         expirationMonth: [''],
         expirationYear: ['']
       })
@@ -95,11 +102,90 @@ export class CheckoutComponent implements OnInit {
 
   onSubmit() {
     console.log("Handling the submit button");
+
+    if (this.checkedOutFormGroup.invalid) {
+      this.checkedOutFormGroup.markAllAsTouched();
+    }
     console.log(this.checkedOutFormGroup.get('customer')?.value);
     console.log(this.checkedOutFormGroup.get('customer')?.get('email')?.value);
 
     console.log("The shipping address country is " + this.checkedOutFormGroup.get('shippingAddress')?.value.country.name);
     console.log("The shipping address state is " + this.checkedOutFormGroup.get('shippingAddress')?.value.state.name);
+  }
+
+
+  // Define getters for form controls
+
+  //  customer getters
+  get firstName() {
+    return this.checkedOutFormGroup.get('customer.firstName');
+  }
+
+  get lastName() {
+    return this.checkedOutFormGroup.get('customer.lastName');
+  }
+
+  get email() {
+    return this.checkedOutFormGroup.get('customer.email');
+  }
+
+  // shipping address getters
+
+  get shippingAddressStreet() {
+    return this.checkedOutFormGroup.get('shippingAddress.street');
+  }
+
+  get shippingAddressCity() {
+    return this.checkedOutFormGroup.get('shippingAddress.city');
+  }
+
+  get shippingAddressState() {
+    return this.checkedOutFormGroup.get('shippingAddress.state');
+  }
+
+  get shippingAddressCountry() {
+    return this.checkedOutFormGroup.get('shippingAddress.country');
+  }
+
+  get shippingAddressZipCode() {
+    return this.checkedOutFormGroup.get('shippingAddress.zipCode');
+  }
+
+  // billing address getters
+  get billingAddressStreet() {
+    return this.checkedOutFormGroup.get('billingAddress.street');
+  }
+
+  get billingAddressCity() {
+    return this.checkedOutFormGroup.get('billingAddress.city');
+  }
+
+  get billingAddressState() {
+    return this.checkedOutFormGroup.get('billingAddress.state');
+  }
+
+  get billingAddressCountry() {
+    return this.checkedOutFormGroup.get('billingAddress.country');
+  }
+
+  get billingAddressZipCode() {
+    return this.checkedOutFormGroup.get('billingAddress.zipCode');
+  }
+
+  // credit card getters
+  get creditCardType() {
+    return this.checkedOutFormGroup.get('creditCard.cardType');
+  }
+
+  get creditCardNameOnCard() {
+    return this.checkedOutFormGroup.get('creditCard.nameOnCard');
+  }
+  get creditCardNumber() {
+    return this.checkedOutFormGroup.get('creditCard.cardNumber');
+  }
+
+  get creditCardSecurityCode() {
+    return this.checkedOutFormGroup.get('creditCard.securityCode');
   }
 
   copyShippingToBilling(event: Event) {
@@ -153,12 +239,6 @@ export class CheckoutComponent implements OnInit {
 
     this.luv2ShopFormService.getStates(countryCode).subscribe(
       data => {
-        /*
-        if(data){
-          console.log("regarde apres")
-          console.log(JSON.stringify(data));
-        }
-        */
 
         if (formGroupName === 'shippingAddress') {
           this.shippingAddressStates = data;
