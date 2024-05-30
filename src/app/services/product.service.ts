@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {map, Observable} from "rxjs";
 import {Product} from "../common/product";
@@ -14,7 +14,8 @@ export class ProductService {
   private categoryUrl = 'http://localhost:8080/api/product-category';
 
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {
+  }
 
   private getProducts(searchUrl: string) {
     return this.httpClient.get<GetResponseProduct>(searchUrl).pipe(
@@ -33,7 +34,7 @@ export class ProductService {
 
     // need to build URL based on category id, page and size
     const searchUrl = `${this.baseUrl}/search/findByCategoryId?id=${theCategoryId}`
-                              + `&page=${thePage}&size=${thePageSize}`;
+      + `&page=${thePage}&size=${thePageSize}`;
     return this.httpClient.get<GetResponseProduct>(searchUrl);
   }
 
@@ -41,14 +42,14 @@ export class ProductService {
 
     // need to build URL based on keyword, page and size
     const searchUrl = `${this.baseUrl}/search/findByNameContaining?name=${theKeyword}`
-                              + `&page=${thePage}&size=${thePageSize}`;
+      + `&page=${thePage}&size=${thePageSize}`;
     return this.httpClient.get<GetResponseProduct>(searchUrl);
   }
 
 
   getProductCategories(): Observable<ProductCategory[]> {
 
-    return  this.httpClient.get<GetResponseProductCategory>(this.categoryUrl).pipe(
+    return this.httpClient.get<GetResponseProductCategory>(this.categoryUrl).pipe(
       map(response => response._embedded.productCategory));
   }
 
@@ -57,7 +58,7 @@ export class ProductService {
     // need to build URL based on the keyword
     const searchUrl = `${this.baseUrl}/search/findByNameContaining?name=${theKeyword}`;
 
-    return  this.getProducts(searchUrl);
+    return this.getProducts(searchUrl);
   }
 
   getProduct(theProductId: number): Observable<Product> {
@@ -69,7 +70,6 @@ export class ProductService {
 
   }
 }
-
 
 
 interface GetResponseProduct {

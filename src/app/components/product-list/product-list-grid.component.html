@@ -16,7 +16,7 @@
             </a>
             <br>
             <a routerLink="/products/{{tempProduct.id}}" class="text-reset text-decoration-none">
-              <h1>{{tempProduct.name}}</h1>
+              <h1>{{ tempProduct.name }}</h1>
             </a>
 
             <div class="price">{{ tempProduct.unitPrice | currency: 'USD' }}</div>
@@ -40,7 +40,6 @@
               <div class="col-md-9" style="padding-left: 30%">
 
 
-
                 <ngb-pagination [(page)]="thePageNumber"
                                 [pageSize]="thePageSize"
                                 [collectionSize]="theTotalElements"
@@ -55,20 +54,20 @@
 
               <div class="col-md-3 mt-2" style="text-align: right">
                 <span class="mr-2">Page Size </span>
-                  <select #myPageSelect (change)="updatePageSize(myPageSelect.value)">
-                    <option>2</option>
-                    <option selected="true">5</option>
-                    <option>10</option>
-                    <option>25</option>
-                    <option>50</option>
-                  </select>
+                <select #myPageSelect (change)="updatePageSize(myPageSelect.value)">
+                  <option>2</option>
+                  <option selected="true">5</option>
+                  <option>10</option>
+                  <option>25</option>
+                  <option>50</option>
+                </select>
+              </div>
             </div>
-          </div>
 
+          </div>
         </div>
-      </div>
         <!-- End of footer -->
 
+      </div>
     </div>
   </div>
-</div>

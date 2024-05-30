@@ -6,9 +6,10 @@ import {Router} from "@angular/router";
   templateUrl: './search.component.html',
   styleUrl: './search.component.css'
 })
-export class SearchComponent implements OnInit{
+export class SearchComponent implements OnInit {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+  }
 
   ngOnInit(): void {
   }

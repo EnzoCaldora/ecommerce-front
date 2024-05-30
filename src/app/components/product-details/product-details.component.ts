@@ -10,14 +10,15 @@ import {CartItem} from "../../common/cart-item";
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.css'
 })
-export class ProductDetailsComponent implements OnInit{
+export class ProductDetailsComponent implements OnInit {
 
   product!: Product;
 
   constructor(private productService: ProductService,
               private route: ActivatedRoute,
               private cartService: CartService
-) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
