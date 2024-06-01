@@ -5,9 +5,10 @@ import {Component, OnInit} from '@angular/core';
   templateUrl: './members-page.component.html',
   styleUrl: './members-page.component.css'
 })
-export class MembersPageComponent implements OnInit{
+export class MembersPageComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

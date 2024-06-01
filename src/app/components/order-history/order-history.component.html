@@ -6,28 +6,28 @@
       <div *ngIf="orderHistoryList.length > 0">
         <table class="table table-striped">
           <thead>
-            <tr>
-              <th>Order Tracking Number</th>
-              <th>Total Price</th>
-              <th>Total Quantity</th>
-              <th>Date</th>
-            </tr>
+          <tr>
+            <th>Order Tracking Number</th>
+            <th>Total Price</th>
+            <th>Total Quantity</th>
+            <th>Date</th>
+          </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let orderHistory of orderHistoryList">
-              <td>{{ orderHistory.orderTrackingNumber }}</td>
-              <td>{{ orderHistory.totalPrice | currency: 'USD' }}</td>
-              <td>{{ orderHistory.totalQuantity }}</td>
-              <td>{{ orderHistory.dateCreated | date: 'medium' }}</td>
-            </tr>
+          <tr *ngFor="let orderHistory of orderHistoryList">
+            <td>{{ orderHistory.orderTrackingNumber }}</td>
+            <td>{{ orderHistory.totalPrice | currency: 'USD' }}</td>
+            <td>{{ orderHistory.totalQuantity }}</td>
+            <td>{{ orderHistory.dateCreated | date: 'medium' }}</td>
+          </tr>
           </tbody>
         </table>
-        </div>
+      </div>
       <!-- if order history is empty then display a message -->
-      <div *ngIf="orderHistoryList.length == 0 " class="alert alert-warning col-md-12" >
+      <div *ngIf="orderHistoryList.length == 0 " class="alert alert-warning col-md-12">
         No orders found.
       </div>
-      </div>
+    </div>
 
   </div>
 
